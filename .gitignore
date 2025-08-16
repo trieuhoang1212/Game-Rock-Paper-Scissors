@@ -1,0 +1,17 @@
+.vscode/
+
+Assets/Scenes
+Assets/Library
+
+Packages/
+
+Library/
+
+ProjectSettings/
+
+UserSettings/
+
+Unity-Server/node_modules
+
+Logs/shadercompiler-UnityShaderCompiler.exe0.log
+game rock paper scissors.sln
