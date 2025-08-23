@@ -17,3 +17,11 @@ Logs/shadercompiler-UnityShaderCompiler.exe0.log
 game rock paper scissors.sln
 Assets/Scenes.meta
 Logs/Packages-Update.log
+
+Assets/MaterialUI
+
+Assets/TextMesh Pro
+PlayGame/game rock paper scissors_Data/Managed
+Temp/obj
+Logs
+Temp
