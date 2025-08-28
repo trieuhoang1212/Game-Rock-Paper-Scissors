@@ -95,14 +95,10 @@ public class GamePlay : MonoBehaviour
                 string myChoice = data.ContainsKey("myChoice") ? data["myChoice"].ToString() : "";
                 string opponentChoice = data.ContainsKey("opponentChoice") ? data["opponentChoice"].ToString() : "";
                 string result = data.ContainsKey("result") ? data["result"].ToString() : "";
-                int myScore = 0;
-                int oppScore = 0;
                 var ms = data.ContainsKey("myScore") ? data["myScore"]?.ToString() : null;
                 var os = data.ContainsKey("opponentScore") ? data["opponentScore"]?.ToString() : null;
-                if (!string.IsNullOrEmpty(ms)) int.TryParse(ms, out myScore);
-                if (!string.IsNullOrEmpty(os)) int.TryParse(os, out oppScore);
 
-                Debug.Log($"[gameResult] myChoice={myChoice}, opp={opponentChoice}, result={result}, myScore={myScore}, oppScore={oppScore}");
+                Debug.Log($"[gameResult] myChoice={myChoice}, opp={opponentChoice}, result={result}");
 
                 // show choices as text
                 if (MyChoiceText) { MyChoiceText.text = NiceChoice(myChoice); MyChoiceText.gameObject.SetActive(true); }

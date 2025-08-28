@@ -18,7 +18,6 @@ io.on("connection", (socket) => {
       rooms[roomID] = {
         players: [],
         choices: {},
-        scores: {},
         ready: {},
       };
       console.log(`Room created ${roomID} by ${socket.id}`);
@@ -40,7 +39,6 @@ io.on("connection", (socket) => {
     if (!rooms[roomID].players.includes(socket.id)) {
       socket.join(roomID);
       rooms[roomID].players.push(socket.id);
-      rooms[roomID].scores[socket.id] = rooms[roomID].scores[socket.id] || 0;
       console.log(`Player ${socket.id}: joined room ${roomID}`);
     } else {
       console.log(`Player ${socket.id} attempted to join room ${roomID} again`);
@@ -89,17 +87,11 @@ io.on("connection", (socket) => {
     const result1 = getResult(p1Choice, p2Choice);
     const result2 = getResult(p2Choice, p1Choice);
 
-    // Update scores: WIN +1, LOSE +0, DRAW +0
-    if (!rooms[roomID].scores[p1Id]) rooms[roomID].scores[p1Id] = 0;
-    if (!rooms[roomID].scores[p2Id]) rooms[roomID].scores[p2Id] = 0;
-    if (result1 === "WIN") rooms[roomID].scores[p1Id] += 1;
-    if (result2 === "WIN") rooms[roomID].scores[p2Id] += 1;
-
     console.log(
-      `Sending to ${p1Id}: myChoice=${p1Choice}, opponentChoice=${p2Choice}, result=${result1}, myScore=${rooms[roomID].scores[p1Id]}, oppScore=${rooms[roomID].scores[p2Id]}`
+      `Sending to ${p1Id}: myChoice=${p1Choice}, opponentChoice=${p2Choice}, result=${result1}`
     );
     console.log(
-      `Sending to ${p2Id}: myChoice=${p2Choice}, opponentChoice=${p1Choice}, result=${result2}, myScore=${rooms[roomID].scores[p2Id]}, oppScore=${rooms[roomID].scores[p1Id]}`
+      `Sending to ${p2Id}: myChoice=${p2Choice}, opponentChoice=${p1Choice}, result=${result2}`
     );
 
     io.to(p1Id).emit("gameResult", {
@@ -149,7 +141,6 @@ io.on("connection", (socket) => {
       (pid) => pid !== socket.id
     );
     delete rooms[roomID].choices[socket.id];
-    delete rooms[roomID].scores[socket.id];
     delete rooms[roomID].ready[socket.id];
     socket.leave(roomID);
     console.log(`Player ${socket.id} exited room ${roomID}`);
@@ -171,7 +162,6 @@ io.on("connection", (socket) => {
         (pid) => pid !== socket.id
       );
       delete rooms[roomID].choices[socket.id];
-      delete rooms[roomID].scores[socket.id];
       delete rooms[roomID].ready[socket.id];
       if (rooms[roomID].players.length === 0) {
         delete rooms[roomID];
